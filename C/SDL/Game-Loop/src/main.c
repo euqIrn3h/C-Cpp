@@ -15,17 +15,6 @@ struct  ball {
     float height;
 } ball;
 
-struct racket
-{
-    float x;
-    float y;
-    float width;
-    float height;
-};
-
-struct racket racket_p1;
-struct racket racket_p2;
-
 int direction_x = 1;
 int direction_y = 1;
 
@@ -64,18 +53,6 @@ void setup(){
     ball.y = 10;
     ball.width = 15;
     ball.height = 15;
-
-    //Player 1
-    racket_p1.x = 0;
-    racket_p1.y = 275;
-    racket_p1.width = 10;
-    racket_p1.height = 50;
-
-    //Player 2
-    racket_p2.x = WINDOW_WIDTH -10;
-    racket_p2.y = 275;
-    racket_p2.width = 10;
-    racket_p2.height = 50;
 }
 
 void process_input(){
@@ -140,24 +117,8 @@ void render(){
         (int)ball.height
     };
 
-    SDL_Rect racket_p1_rect = {
-        (int)racket_p1.x,
-        (int)racket_p1.y,
-        (int)racket_p1.width,
-        (int)racket_p1.height
-    };
-
-    SDL_Rect racket_p2_rect = {
-        (int)racket_p2.x,
-        (int)racket_p2.y,
-        (int)racket_p2.width,
-        (int)racket_p2.height
-    };
-
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &ball_rect);
-    SDL_RenderFillRect(renderer, &racket_p1_rect);
-    SDL_RenderFillRect(renderer, &racket_p2_rect);
 
     SDL_RenderPresent(renderer);
 }
