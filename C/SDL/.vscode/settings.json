@@ -1,6 +1,9 @@
 {
     "files.associations": {
         "*.tcc": "c",
-        "fstream": "c"
+        "fstream": "c",
+        "numbers": "c",
+        "cstdlib": "c",
+        "string": "c"
     }
 }
