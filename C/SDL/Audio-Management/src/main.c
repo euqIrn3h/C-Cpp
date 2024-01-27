@@ -60,7 +60,7 @@ int initialize_window(void){
     }
 
     //Load sound effects
-    gScratch = Mix_LoadWAV( "./src/audio/oh-my-god-1.wav" );
+    gScratch = Mix_LoadWAV_RW(SDL_RWFromFile("./src/audio/oh-my-god-1.wav", "rb"), 1);
     if( gScratch == NULL )
     {
         printf( "Failed to load scratch sound effect! SDL_mixer Error: %s\n", Mix_GetError() );
