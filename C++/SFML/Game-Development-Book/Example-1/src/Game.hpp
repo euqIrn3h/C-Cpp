@@ -6,32 +6,15 @@
 class Window{
 
 public:
-    Window(const std::string& l_title, const sf::Vector2u& l_size);
-    ~Window();
+    Window(){ Setup("Window", sf::Vector2u(640,480)); }
 
-    void BeginDraw();
-    void EndDraw();
-
-    void Update();
-
-    bool IsDone();
-    bool ISFullscreen();
-
-    sf::Vector2u GetWindowSize();
-
-    void ToogleFullscreen();
-
-    void Draw(sf::Drawable& l_drawable);
-
-    Window::Window(){ Setup("Window", sf::Vector2u(640,480)); }
-
-    Window::Window(const std::string& l_title, const sf::Vector2u& l_size){
+    Window(const std::string& l_title, const sf::Vector2u& l_size){
         Setup(l_title, l_size);
     }
 
-    Window::~Window(){ Destroy(); }
+    ~Window(){ Destroy(); }
 
-    void Window::Update(){
+    void Update(){
         sf::Event event;
 
         while(m_window.pollEvent(event)){
@@ -44,24 +27,24 @@ public:
         }
     }
     
-    void Window::ToogleFullscreen(){
+    void ToogleFullscreen(){
         m_isFullscreen = !m_isFullscreen;
         Destroy();
         Create();
     }
 
-    void Window::BeginDraw(){ m_window.clear(sf::Color::Black); }
-    void Window::EndDraw(){ m_window.display(); }
+    void BeginDraw(){ m_window.clear(sf::Color::Black); }
+    void EndDraw(){ m_window.display(); }
 
-    bool Window::IsDone(){ return m_isDone; }
-    bool Window::ISFullscreen(){ return m_isFullscreen; }
-    sf::Vector2u Window::GetWindowSize(){ return m_windowSize; }
+    bool IsDone(){ return m_isDone; }
+    bool ISFullscreen(){ return m_isFullscreen; }
+    sf::Vector2u GetWindowSize(){ return m_windowSize; }
 
-    void Window::Draw(sf::Drawable& l_drawable){
+    void Draw(sf::Drawable& l_drawable){
         m_window.draw(l_drawable);
     }
 
-    void Window::Setup(const std::string& l_title, const sf::Vector2u& l_size){
+    void Setup(const std::string& l_title, const sf::Vector2u& l_size){
         m_windowTitle = l_title;
         m_windowSize = l_size;
         m_isFullscreen = false;
@@ -69,7 +52,7 @@ public:
         Create();
     }
 
-    void Window::Create(){
+    void Create(){
         auto style = (m_isFullscreen ? sf::Style::Fullscreen : sf::Style::Default);
         m_window.create(
             { m_windowSize.x, m_windowSize.y, 32},
@@ -78,15 +61,11 @@ public:
         );
     }    
 
-    void Window::Destroy(){
+    void Destroy(){
         m_window.close();
     }
 
 private:
-    void Setup(const std::string& l_title, const sf::Vector2u& l_size);
-    void Destroy();
-    void Create();
-
     sf::RenderWindow m_window;
     sf::Vector2u m_windowSize;
     std::string m_windowTitle;
@@ -97,39 +76,32 @@ private:
 
 class Game{
 public:
-    Game();
-    ~Game();
+    void HandleInput(){}
 
-    void HandleInput();
-    void Update();
-    void Render();
-    Window* GetWindow();
+    Window* GetWindow(){
+        return &m_window;
+    };
 
-    Game::Game(): m_window("Chapter 2", sf::Vector2u(800,600)){
-        m_mushroomTexture.loadFromFile("./assets/Maca-do-bicho.jpg");
+    Game(): m_window("Chapter 2", sf::Vector2u(800,600)){
+        m_mushroomTexture.loadFromFile("./src/assets/Maca-do-bicho.jpg");
         m_mushroom.setTexture(m_mushroomTexture);
         m_increment = sf::Vector2i(4,4);
     }
 
-    void Game::Update(){
+    ~Game(){}
+
+    void Update(){
         m_window.Update();
         MoveMushroom();
     }
 
-    void Game::Render(){
+    void Render(){
         m_window.BeginDraw();
         m_window.Draw(m_mushroom);
         m_window.EndDraw();
     }
 
-private:
-    void MoveMushroom();
-    Window m_window;
-    sf::Texture m_mushroomTexture;
-    sf::Sprite m_mushroom;
-    sf::Vector2i m_increment;
-
-    void Game::MoveMushroom(){
+    void MoveMushroom(){
         sf::Vector2u l_windSize = m_window.GetWindowSize();
         sf::Vector2u l_textSize = m_mushroomTexture.getSize();
 
@@ -144,4 +116,12 @@ private:
         m_mushroom.setPosition(m_mushroom.getPosition().x + m_increment.x, m_mushroom.getPosition().y + m_increment.y);
 
     }
+
+private:
+    Window m_window;
+    sf::Texture m_mushroomTexture;
+    sf::Sprite m_mushroom;
+    sf::Vector2i m_increment;
+
+    
 };
